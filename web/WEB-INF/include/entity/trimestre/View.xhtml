@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TrimestreViewDlg" widgetVar="TrimestreViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewTrimestreTitle}" closeOnEscape="true">
+
+            <h:form id="TrimestreViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{trimestreController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTrimestreLabel_idTrimestre}"/>
+                        <h:outputText value="#{trimestreController.selected.idTrimestre}" title="#{myBundle.ViewTrimestreTitle_idTrimestre}"/>
+
+                        <h:outputText value="#{myBundle.ViewTrimestreLabel_fechaInicio}"/>
+                        <h:outputText value="#{trimestreController.selected.fechaInicio}" title="#{myBundle.ViewTrimestreTitle_fechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewTrimestreLabel_fechaFin}"/>
+                        <h:outputText value="#{trimestreController.selected.fechaFin}" title="#{myBundle.ViewTrimestreTitle_fechaFin}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewTrimestreLabel_numeroTrimestre}"/>
+                        <h:outputText value="#{trimestreController.selected.numeroTrimestre}" title="#{myBundle.ViewTrimestreTitle_numeroTrimestre}"/>
+
+                        <h:outputText value="#{myBundle.ViewTrimestreLabel_idFicha}"/>
+                        <h:outputText value="#{trimestreController.selected.idFicha.idFicha}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('TrimestreViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

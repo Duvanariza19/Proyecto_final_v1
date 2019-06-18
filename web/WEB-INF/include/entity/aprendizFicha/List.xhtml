@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="AprendizFichaListForm">
+
+        <p:panel header="#{myBundle.ListAprendizFichaTitle}">
+            <p:contextMenu id="AprendizFichaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('AprendizFichaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('AprendizFichaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('AprendizFichaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('AprendizFichaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.AprendizFichaMenuItem_idAprendiz}" icon="ui-icon-search"  actionListener="#{aprendizFichaController.prepareIdAprendiz}" update=":AprendizViewForm" oncomplete="PF('AprendizViewDialog').show()" disabled="#{empty aprendizFichaController.selected.idAprendiz}"/>  
+                <p:menuitem value="#{myBundle.AprendizFichaMenuItem_idFicha}" icon="ui-icon-search"  actionListener="#{aprendizFichaController.prepareIdFicha}" update=":FichaViewForm" oncomplete="PF('FichaViewDialog').show()" disabled="#{empty aprendizFichaController.selected.idFicha}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{aprendizFichaController.items}"
+                         lazy="false"
+                         rowKey="#{item.idAprendizFicha}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{aprendizFichaController.selected}"
+                         filteredValue="#{aprendizFichaController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{aprendizFichaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idAprendizFicha}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AprendizFichaDataTableContextMenu" listener="#{aprendizFichaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AprendizFichaDataTableContextMenu" listener="#{aprendizFichaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{aprendizFichaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('AprendizFichaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idAprendizFicha}" filterBy="#{item.idAprendizFicha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListAprendizFichaTitle_idAprendizFicha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idAprendizFicha}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListAprendizFichaTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaModificacio}" filterBy="#{item.fechaModificacio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListAprendizFichaTitle_fechaModificacio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaModificacio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idUsuarioModifica}" filterBy="#{item.idUsuarioModifica}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListAprendizFichaTitle_idUsuarioModifica}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuarioModifica}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreUsuarioModifica}" filterBy="#{item.nombreUsuarioModifica}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListAprendizFichaTitle_nombreUsuarioModifica}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreUsuarioModifica}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idAprendiz.idAprendiz}" filterBy="#{item.idAprendiz.idAprendiz}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListAprendizFichaTitle_idAprendiz}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idAprendiz.idAprendiz}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.idFicha.idFicha}" filterBy="#{item.idFicha.idFicha}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListAprendizFichaTitle_idFicha}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idFicha.idFicha}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{aprendizFichaController.prepareCreate}" update=":AprendizFichaCreateForm" oncomplete="PF('AprendizFichaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":AprendizFichaViewForm" oncomplete="PF('AprendizFichaViewDialog').show()" disabled="#{empty aprendizFichaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":AprendizFichaEditForm" oncomplete="PF('AprendizFichaEditDialog').show()" disabled="#{empty aprendizFichaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{aprendizFichaController.delete}" update=":growl,datalist" disabled="#{empty aprendizFichaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

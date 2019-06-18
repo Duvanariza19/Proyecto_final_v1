@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EvidenciaAprendizajeViewDlg" widgetVar="EvidenciaAprendizajeViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewEvidenciaAprendizajeTitle}" closeOnEscape="true">
+
+            <h:form id="EvidenciaAprendizajeViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{evidenciaAprendizajeController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewEvidenciaAprendizajeLabel_idEvidencia}"/>
+                        <h:outputText value="#{evidenciaAprendizajeController.selected.idEvidencia}" title="#{myBundle.ViewEvidenciaAprendizajeTitle_idEvidencia}"/>
+
+                        <h:outputText value="#{myBundle.ViewEvidenciaAprendizajeLabel_nombreEvidencia}"/>
+                        <h:outputText value="#{evidenciaAprendizajeController.selected.nombreEvidencia}" title="#{myBundle.ViewEvidenciaAprendizajeTitle_nombreEvidencia}"/>
+
+                        <h:outputText value="#{myBundle.ViewEvidenciaAprendizajeLabel_descripcionEvidencia}"/>
+                        <h:outputText value="#{evidenciaAprendizajeController.selected.descripcionEvidencia}" title="#{myBundle.ViewEvidenciaAprendizajeTitle_descripcionEvidencia}"/>
+
+                        <h:outputText value="#{myBundle.ViewEvidenciaAprendizajeLabel_fechaInicio}"/>
+                        <h:outputText value="#{evidenciaAprendizajeController.selected.fechaInicio}" title="#{myBundle.ViewEvidenciaAprendizajeTitle_fechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewEvidenciaAprendizajeLabel_fechaFin}"/>
+                        <h:outputText value="#{evidenciaAprendizajeController.selected.fechaFin}" title="#{myBundle.ViewEvidenciaAprendizajeTitle_fechaFin}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewEvidenciaAprendizajeLabel_fechaRegistro}"/>
+                        <h:outputText value="#{evidenciaAprendizajeController.selected.fechaRegistro}" title="#{myBundle.ViewEvidenciaAprendizajeTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewEvidenciaAprendizajeLabel_idResultadoAprendizaje}"/>
+                        <h:outputText value="#{evidenciaAprendizajeController.selected.idResultadoAprendizaje.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('EvidenciaAprendizajeViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

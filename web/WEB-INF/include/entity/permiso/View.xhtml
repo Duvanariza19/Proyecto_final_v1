@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PermisoViewDlg" widgetVar="PermisoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewPermisoTitle}" closeOnEscape="true">
+
+            <h:form id="PermisoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{permisoController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_idPermiso}"/>
+                        <h:outputText value="#{permisoController.selected.idPermiso}" title="#{myBundle.ViewPermisoTitle_idPermiso}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_nombrePermiso}"/>
+                        <h:outputText value="#{permisoController.selected.nombrePermiso}" title="#{myBundle.ViewPermisoTitle_nombrePermiso}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_modulo}"/>
+                        <h:outputText value="#{permisoController.selected.modulo}" title="#{myBundle.ViewPermisoTitle_modulo}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_estado}"/>
+                        <h:outputText value="#{permisoController.selected.estado}" title="#{myBundle.ViewPermisoTitle_estado}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_crar}"/>
+                        <p:selectBooleanCheckbox id="crar" value="#{permisoController.selected.crar}" title="#{myBundle.EditPermisoTitle_crar}" required="true" requiredMessage="#{myBundle.EditPermisoRequiredMessage_crar}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_consultar}"/>
+                        <p:selectBooleanCheckbox id="consultar" value="#{permisoController.selected.consultar}" title="#{myBundle.EditPermisoTitle_consultar}" required="true" requiredMessage="#{myBundle.EditPermisoRequiredMessage_consultar}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_modificar}"/>
+                        <p:selectBooleanCheckbox id="modificar" value="#{permisoController.selected.modificar}" title="#{myBundle.EditPermisoTitle_modificar}" required="true" requiredMessage="#{myBundle.EditPermisoRequiredMessage_modificar}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_eliminar}"/>
+                        <p:selectBooleanCheckbox id="eliminar" value="#{permisoController.selected.eliminar}" title="#{myBundle.EditPermisoTitle_eliminar}" required="true" requiredMessage="#{myBundle.EditPermisoRequiredMessage_eliminar}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_fechaModificacio}"/>
+                        <h:outputText value="#{permisoController.selected.fechaModificacio}" title="#{myBundle.ViewPermisoTitle_fechaModificacio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_idUsuarioModifica}"/>
+                        <h:outputText value="#{permisoController.selected.idUsuarioModifica}" title="#{myBundle.ViewPermisoTitle_idUsuarioModifica}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_nombreUsuarioModifica}"/>
+                        <h:outputText value="#{permisoController.selected.nombreUsuarioModifica}" title="#{myBundle.ViewPermisoTitle_nombreUsuarioModifica}"/>
+
+                        <h:outputText value="#{myBundle.ViewPermisoLabel_idRol}"/>
+                        <h:outputText value="#{permisoController.selected.idRol.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('PermisoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProgramaDeFormacionEditDlg" widgetVar="ProgramaDeFormacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditProgramaDeFormacionTitle}" closeOnEscape="true">
+
+            <h:form id="ProgramaDeFormacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{programaDeFormacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditProgramaDeFormacionLabel_idPrograma}" for="idPrograma" />
+                        <h:outputText id="idPrograma" value="#{programaDeFormacionController.selected.idPrograma}" />
+
+                        <p:outputLabel value="#{myBundle.EditProgramaDeFormacionLabel_nombrePrograma}" for="nombrePrograma" />
+                        <p:inputText id="nombrePrograma" value="#{programaDeFormacionController.selected.nombrePrograma}" title="#{myBundle.EditProgramaDeFormacionTitle_nombrePrograma}" required="true" requiredMessage="#{myBundle.EditProgramaDeFormacionRequiredMessage_nombrePrograma}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.EditProgramaDeFormacionLabel_duracionMeses}" for="duracionMeses" />
+                        <p:inputText id="duracionMeses" value="#{programaDeFormacionController.selected.duracionMeses}" title="#{myBundle.EditProgramaDeFormacionTitle_duracionMeses}" required="true" requiredMessage="#{myBundle.EditProgramaDeFormacionRequiredMessage_duracionMeses}"/>
+
+                        <p:outputLabel value="#{myBundle.EditProgramaDeFormacionLabel_descripcionPrograma}" for="descripcionPrograma" />
+                        <p:inputTextarea rows="4" cols="30" id="descripcionPrograma" value="#{programaDeFormacionController.selected.descripcionPrograma}" title="#{myBundle.EditProgramaDeFormacionTitle_descripcionPrograma}" />
+
+                        <p:outputLabel value="#{myBundle.EditProgramaDeFormacionLabel_tipoPrograma}" for="tipoPrograma" />
+                        <p:inputText id="tipoPrograma" value="#{programaDeFormacionController.selected.tipoPrograma}" title="#{myBundle.EditProgramaDeFormacionTitle_tipoPrograma}" required="true" requiredMessage="#{myBundle.EditProgramaDeFormacionRequiredMessage_tipoPrograma}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditProgramaDeFormacionLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{programaDeFormacionController.selected.estado}" title="#{myBundle.EditProgramaDeFormacionTitle_estado}" required="true" requiredMessage="#{myBundle.EditProgramaDeFormacionRequiredMessage_estado}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditProgramaDeFormacionLabel_idUsuarioModifica}" for="idUsuarioModifica" />
+                        <p:inputText id="idUsuarioModifica" value="#{programaDeFormacionController.selected.idUsuarioModifica}" title="#{myBundle.EditProgramaDeFormacionTitle_idUsuarioModifica}" required="true" requiredMessage="#{myBundle.EditProgramaDeFormacionRequiredMessage_idUsuarioModifica}"/>
+
+                        <p:outputLabel value="#{myBundle.EditProgramaDeFormacionLabel_nombreUsuarioModifica}" for="nombreUsuarioModifica" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreUsuarioModifica" value="#{programaDeFormacionController.selected.nombreUsuarioModifica}" title="#{myBundle.EditProgramaDeFormacionTitle_nombreUsuarioModifica}" required="true" requiredMessage="#{myBundle.EditProgramaDeFormacionRequiredMessage_nombreUsuarioModifica}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{programaDeFormacionController.save}" value="#{myBundle.Save}" update="display,:ProgramaDeFormacionListForm:datalist,:ProgramaDeFormacionListForm:ProgramaDeFormacionDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProgramaDeFormacionEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ProgramaDeFormacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

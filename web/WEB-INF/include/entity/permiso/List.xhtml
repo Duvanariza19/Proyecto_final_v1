@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PermisoListForm">
+
+        <p:panel header="#{myBundle.ListPermisoTitle}">
+            <p:contextMenu id="PermisoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('PermisoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('PermisoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('PermisoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('PermisoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.PermisoMenuItem_idRol}" icon="ui-icon-search"  actionListener="#{permisoController.prepareIdRol}" update=":RolViewForm" oncomplete="PF('RolViewDialog').show()" disabled="#{empty permisoController.selected.idRol}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{permisoController.items}"
+                         lazy="false"
+                         rowKey="#{item.idPermiso}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{permisoController.selected}"
+                         filteredValue="#{permisoController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{permisoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idPermiso}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PermisoDataTableContextMenu" listener="#{permisoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PermisoDataTableContextMenu" listener="#{permisoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{permisoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PermisoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idPermiso}" filterBy="#{item.idPermiso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPermisoTitle_idPermiso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPermiso}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombrePermiso}" filterBy="#{item.nombrePermiso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPermisoTitle_nombrePermiso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombrePermiso}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.modulo}" filterBy="#{item.modulo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPermisoTitle_modulo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.modulo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPermisoTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.crar}" filterBy="#{item.crar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPermisoTitle_crar}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="crar" value="#{item.crar}" title="#{myBundle.EditPermisoTitle_crar}" required="true" requiredMessage="#{myBundle.EditPermisoRequiredMessage_crar}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.consultar}" filterBy="#{item.consultar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPermisoTitle_consultar}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="consultar" value="#{item.consultar}" title="#{myBundle.EditPermisoTitle_consultar}" required="true" requiredMessage="#{myBundle.EditPermisoRequiredMessage_consultar}" disabled="true"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.modificar}" filterBy="#{item.modificar}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPermisoTitle_modificar}"/>
+                        </f:facet>
+                        <h:selectBooleanCheckbox id="modificar" value="#{item.modificar}" title="#{myBundle.EditPermisoTitle_modificar}" required="true" requiredMessage="#{myBundle.EditPermisoRequiredMessage_modificar}" disabled="true"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.eliminar}" filterBy="#{item.eliminar}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPermisoTitle_eliminar}"/>
+                        </f:facet>
+                        <h:selectBooleanCheckbox id="eliminar" value="#{item.eliminar}" title="#{myBundle.EditPermisoTitle_eliminar}" required="true" requiredMessage="#{myBundle.EditPermisoRequiredMessage_eliminar}" disabled="true"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.fechaModificacio}" filterBy="#{item.fechaModificacio}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPermisoTitle_fechaModificacio}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaModificacio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idUsuarioModifica}" filterBy="#{item.idUsuarioModifica}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPermisoTitle_idUsuarioModifica}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUsuarioModifica}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.nombreUsuarioModifica}" filterBy="#{item.nombreUsuarioModifica}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPermisoTitle_nombreUsuarioModifica}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreUsuarioModifica}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idRol.descripcion}" filterBy="#{item.idRol.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPermisoTitle_idRol}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idRol.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{permisoController.prepareCreate}" update=":PermisoCreateForm" oncomplete="PF('PermisoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":PermisoViewForm" oncomplete="PF('PermisoViewDialog').show()" disabled="#{empty permisoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":PermisoEditForm" oncomplete="PF('PermisoEditDialog').show()" disabled="#{empty permisoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{permisoController.delete}" update=":growl,datalist" disabled="#{empty permisoController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

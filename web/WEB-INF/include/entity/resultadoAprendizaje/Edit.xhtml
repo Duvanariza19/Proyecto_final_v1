@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ResultadoAprendizajeEditDlg" widgetVar="ResultadoAprendizajeEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditResultadoAprendizajeTitle}" closeOnEscape="true">
+
+            <h:form id="ResultadoAprendizajeEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{resultadoAprendizajeController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditResultadoAprendizajeLabel_idResultadoAprendizaje}" for="idResultadoAprendizaje" />
+                        <h:outputText id="idResultadoAprendizaje" value="#{resultadoAprendizajeController.selected.idResultadoAprendizaje}" />
+
+                        <p:outputLabel value="#{myBundle.EditResultadoAprendizajeLabel_nombreresultado}" for="nombreresultado" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreresultado" value="#{resultadoAprendizajeController.selected.nombreresultado}" title="#{myBundle.EditResultadoAprendizajeTitle_nombreresultado}" required="true" requiredMessage="#{myBundle.EditResultadoAprendizajeRequiredMessage_nombreresultado}"/>
+
+                        <p:outputLabel value="#{myBundle.EditResultadoAprendizajeLabel_descripcion}" for="descripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{resultadoAprendizajeController.selected.descripcion}" title="#{myBundle.EditResultadoAprendizajeTitle_descripcion}" required="true" requiredMessage="#{myBundle.EditResultadoAprendizajeRequiredMessage_descripcion}"/>
+
+                        <p:outputLabel value="#{myBundle.EditResultadoAprendizajeLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{resultadoAprendizajeController.selected.fechaRegistro}" title="#{myBundle.EditResultadoAprendizajeTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditResultadoAprendizajeLabel_idCompetencia}" for="idCompetencia" />
+                        <p:selectOneMenu id="idCompetencia" value="#{resultadoAprendizajeController.selected.idCompetencia}" required="true" requiredMessage="#{myBundle.EditResultadoAprendizajeRequiredMessage_idCompetencia}" converter="competenciaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{competenciaController.items}"
+                                           var="idCompetenciaItem"
+                                           itemValue="#{idCompetenciaItem}"
+                                           itemLabel="#{idCompetenciaItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{resultadoAprendizajeController.save}" value="#{myBundle.Save}" update="display,:ResultadoAprendizajeListForm:datalist,:ResultadoAprendizajeListForm:ResultadoAprendizajeDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ResultadoAprendizajeEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ResultadoAprendizajeEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

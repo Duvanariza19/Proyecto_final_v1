@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreatePersonaTitle}" closeOnEscape="true">
+
+            <h:form id="PersonaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{personaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_numeroDocumento}" for="numeroDocumento" />
+                        <p:inputText id="numeroDocumento" value="#{personaController.selected.numeroDocumento}" title="#{myBundle.CreatePersonaTitle_numeroDocumento}" required="true" requiredMessage="#{myBundle.CreatePersonaRequiredMessage_numeroDocumento}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_tipoDocumento}" for="tipoDocumento" />
+                        <p:inputText id="tipoDocumento" value="#{personaController.selected.tipoDocumento}" title="#{myBundle.CreatePersonaTitle_tipoDocumento}" required="true" requiredMessage="#{myBundle.CreatePersonaRequiredMessage_tipoDocumento}" size="15" maxlength="10"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_primerNombre}" for="primerNombre" />
+                        <p:inputText id="primerNombre" value="#{personaController.selected.primerNombre}" title="#{myBundle.CreatePersonaTitle_primerNombre}" required="true" requiredMessage="#{myBundle.CreatePersonaRequiredMessage_primerNombre}" size="50" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_segundoNombre}" for="segundoNombre" />
+                        <p:inputText id="segundoNombre" value="#{personaController.selected.segundoNombre}" title="#{myBundle.CreatePersonaTitle_segundoNombre}" size="50" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_primerApellido}" for="primerApellido" />
+                        <p:inputText id="primerApellido" value="#{personaController.selected.primerApellido}" title="#{myBundle.CreatePersonaTitle_primerApellido}" required="true" requiredMessage="#{myBundle.CreatePersonaRequiredMessage_primerApellido}" size="50" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_segundoApellido}" for="segundoApellido" />
+                        <p:inputText id="segundoApellido" value="#{personaController.selected.segundoApellido}" title="#{myBundle.CreatePersonaTitle_segundoApellido}" size="50" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_genero}" for="genero" />
+                        <p:inputText id="genero" value="#{personaController.selected.genero}" title="#{myBundle.CreatePersonaTitle_genero}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_correo}" for="correo" />
+                        <p:inputText id="correo" value="#{personaController.selected.correo}" title="#{myBundle.CreatePersonaTitle_correo}" size="50" maxlength="150"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_fechaModificacio}" for="fechaModificacio" />
+                        <p:calendar id="fechaModificacio" pattern="MM/dd/yyyy" value="#{personaController.selected.fechaModificacio}" title="#{myBundle.CreatePersonaTitle_fechaModificacio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_idUsuarioModifica}" for="idUsuarioModifica" />
+                        <p:inputText id="idUsuarioModifica" value="#{personaController.selected.idUsuarioModifica}" title="#{myBundle.CreatePersonaTitle_idUsuarioModifica}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePersonaLabel_nombreUsuarioModifica}" for="nombreUsuarioModifica" />
+                        <p:inputText  id="nombreUsuarioModifica" value="#{personaController.selected.nombreUsuarioModifica}" title="#{myBundle.CreatePersonaTitle_nombreUsuarioModifica}" />
+                    </p:panelGrid>
+                    <p:commandButton class="btn-success" actionListener="#{personaController.saveNew}" value="#{myBundle.Save}" update="display,:PersonaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PersonaCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton class="btn-danger" value="#{myBundle.Cancel}" oncomplete="PF('PersonaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

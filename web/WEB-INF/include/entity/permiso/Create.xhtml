@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PermisoCreateDlg" widgetVar="PermisoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreatePermisoTitle}" closeOnEscape="true">
+
+            <h:form id="PermisoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{permisoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_nombrePermiso}" for="nombrePermiso" />
+                        <p:inputText id="nombrePermiso" value="#{permisoController.selected.nombrePermiso}" title="#{myBundle.CreatePermisoTitle_nombrePermiso}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_modulo}" for="modulo" />
+                        <p:inputText id="modulo" value="#{permisoController.selected.modulo}" title="#{myBundle.CreatePermisoTitle_modulo}" required="true" requiredMessage="#{myBundle.CreatePermisoRequiredMessage_modulo}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{permisoController.selected.estado}" title="#{myBundle.CreatePermisoTitle_estado}" required="true" requiredMessage="#{myBundle.CreatePermisoRequiredMessage_estado}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_crar}" for="crar" />
+                        <p:selectBooleanCheckbox id="crar" value="#{permisoController.selected.crar}" required="true" requiredMessage="#{myBundle.CreatePermisoRequiredMessage_crar}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_consultar}" for="consultar" />
+                        <p:selectBooleanCheckbox id="consultar" value="#{permisoController.selected.consultar}" required="true" requiredMessage="#{myBundle.CreatePermisoRequiredMessage_consultar}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_modificar}" for="modificar" />
+                        <p:selectBooleanCheckbox id="modificar" value="#{permisoController.selected.modificar}" required="true" requiredMessage="#{myBundle.CreatePermisoRequiredMessage_modificar}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_eliminar}" for="eliminar" />
+                        <p:selectBooleanCheckbox id="eliminar" value="#{permisoController.selected.eliminar}" required="true" requiredMessage="#{myBundle.CreatePermisoRequiredMessage_eliminar}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_fechaModificacio}" for="fechaModificacio" />
+                        <p:calendar id="fechaModificacio" pattern="MM/dd/yyyy" value="#{permisoController.selected.fechaModificacio}" title="#{myBundle.CreatePermisoTitle_fechaModificacio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_idUsuarioModifica}" for="idUsuarioModifica" />
+                        <p:inputText id="idUsuarioModifica" value="#{permisoController.selected.idUsuarioModifica}" title="#{myBundle.CreatePermisoTitle_idUsuarioModifica}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_nombreUsuarioModifica}" for="nombreUsuarioModifica" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreUsuarioModifica" value="#{permisoController.selected.nombreUsuarioModifica}" title="#{myBundle.CreatePermisoTitle_nombreUsuarioModifica}" />
+
+                        <p:outputLabel value="#{myBundle.CreatePermisoLabel_idRol}" for="idRol" />
+                        <p:selectOneMenu id="idRol" value="#{permisoController.selected.idRol}" required="true" requiredMessage="#{myBundle.CreatePermisoRequiredMessage_idRol}" converter="rolConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rolController.items}"
+                                           var="idRolItem"
+                                           itemValue="#{idRolItem}"
+                                           itemLabel="#{idRolItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{permisoController.saveNew}" value="#{myBundle.Save}" update="display,:PermisoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PermisoCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('PermisoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

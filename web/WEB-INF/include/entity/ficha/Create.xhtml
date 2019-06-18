@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FichaCreateDlg" widgetVar="FichaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateFichaTitle}" closeOnEscape="true">
+
+            <h:form id="FichaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{fichaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateFichaLabel_cupo}" for="cupo" />
+                        <p:inputText id="cupo" value="#{fichaController.selected.cupo}" title="#{myBundle.CreateFichaTitle_cupo}" required="true" requiredMessage="#{myBundle.CreateFichaRequiredMessage_cupo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateFichaLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{fichaController.selected.fechaRegistro}" title="#{myBundle.CreateFichaTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.CreateFichaRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateFichaLabel_idPrograma}" for="idPrograma" />
+                        <p:selectOneMenu id="idPrograma" value="#{fichaController.selected.idPrograma}" required="true" requiredMessage="#{myBundle.CreateFichaRequiredMessage_idPrograma}" converter="programaDeFormacionConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{programaDeFormacionController.items}"
+                                           var="idProgramaItem"
+                                           itemValue="#{idProgramaItem}"
+                                           itemLabel="#{idProgramaItem.descripcionPrograma.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{fichaController.saveNew}" value="#{myBundle.Save}" update="display,:FichaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FichaCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('FichaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioViewDlg" widgetVar="UsuarioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{usuarioController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_idUsuario}"/>
+                        <h:outputText value="#{usuarioController.selected.idUsuario}" title="#{myBundle.ViewUsuarioTitle_idUsuario}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_estadoUsuario}"/>
+                        <h:outputText value="#{usuarioController.selected.estadoUsuario}" title="#{myBundle.ViewUsuarioTitle_estadoUsuario}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_contrasena}"/>
+                        <h:outputText value="#{usuarioController.selected.contrasena}" title="#{myBundle.ViewUsuarioTitle_contrasena}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_fechaContrasena}"/>
+                        <h:outputText value="#{usuarioController.selected.fechaContrasena}" title="#{myBundle.ViewUsuarioTitle_fechaContrasena}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_contrasenaAnterior}"/>
+                        <h:outputText value="#{usuarioController.selected.contrasenaAnterior}" title="#{myBundle.ViewUsuarioTitle_contrasenaAnterior}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_intentosLogin}"/>
+                        <h:outputText value="#{usuarioController.selected.intentosLogin}" title="#{myBundle.ViewUsuarioTitle_intentosLogin}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_fechaRegistro}"/>
+                        <h:outputText value="#{usuarioController.selected.fechaRegistro}" title="#{myBundle.ViewUsuarioTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_correoSena}"/>
+                        <h:outputText value="#{usuarioController.selected.correoSena}" title="#{myBundle.ViewUsuarioTitle_correoSena}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_fechaModificacio}"/>
+                        <h:outputText value="#{usuarioController.selected.fechaModificacio}" title="#{myBundle.ViewUsuarioTitle_fechaModificacio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_idUsuarioModifica}"/>
+                        <h:outputText value="#{usuarioController.selected.idUsuarioModifica}" title="#{myBundle.ViewUsuarioTitle_idUsuarioModifica}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_nombreUsuarioModifica}"/>
+                        <h:outputText value="#{usuarioController.selected.nombreUsuarioModifica}" title="#{myBundle.ViewUsuarioTitle_nombreUsuarioModifica}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_numeroDocumento}"/>
+                        <h:outputText value="#{usuarioController.selected.numeroDocumento.numeroDocumento}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('UsuarioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

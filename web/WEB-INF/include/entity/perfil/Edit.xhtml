@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PerfilEditDlg" widgetVar="PerfilEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditPerfilTitle}" closeOnEscape="true">
+
+            <h:form id="PerfilEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{perfilController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditPerfilLabel_idPerfil}" for="idPerfil" />
+                        <h:outputText id="idPerfil" value="#{perfilController.selected.idPerfil}" />
+
+                        <p:outputLabel value="#{myBundle.EditPerfilLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{perfilController.selected.estado}" title="#{myBundle.EditPerfilTitle_estado}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPerfilLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{perfilController.selected.fechaRegistro}" title="#{myBundle.EditPerfilTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditPerfilLabel_fechaModificacio}" for="fechaModificacio" />
+                        <p:calendar id="fechaModificacio" pattern="MM/dd/yyyy" value="#{perfilController.selected.fechaModificacio}" title="#{myBundle.EditPerfilTitle_fechaModificacio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditPerfilLabel_idUsuarioModifica}" for="idUsuarioModifica" />
+                        <p:inputText id="idUsuarioModifica" value="#{perfilController.selected.idUsuarioModifica}" title="#{myBundle.EditPerfilTitle_idUsuarioModifica}"/>
+
+                        <p:outputLabel value="#{myBundle.EditPerfilLabel_nombreUsuarioModifica}" for="nombreUsuarioModifica" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreUsuarioModifica" value="#{perfilController.selected.nombreUsuarioModifica}" title="#{myBundle.EditPerfilTitle_nombreUsuarioModifica}" />
+
+                        <p:outputLabel value="#{myBundle.EditPerfilLabel_idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu id="idUsuario" value="#{perfilController.selected.idUsuario}" required="true" requiredMessage="#{myBundle.EditPerfilRequiredMessage_idUsuario}" converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="idUsuarioItem"
+                                           itemValue="#{idUsuarioItem}"
+                                           itemLabel="#{idUsuarioItem.idUsuario.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditPerfilLabel_idRol}" for="idRol" />
+                        <p:selectOneMenu id="idRol" value="#{perfilController.selected.idRol}" required="true" requiredMessage="#{myBundle.EditPerfilRequiredMessage_idRol}" converter="rolConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rolController.items}"
+                                           var="idRolItem"
+                                           itemValue="#{idRolItem}"
+                                           itemLabel="#{idRolItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{perfilController.save}" value="#{myBundle.Save}" update="display,:PerfilListForm:datalist,:PerfilListForm:PerfilDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PerfilEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('PerfilEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

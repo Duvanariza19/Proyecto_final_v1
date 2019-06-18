@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CompetenciaEditDlg" widgetVar="CompetenciaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditCompetenciaTitle}" closeOnEscape="true">
+
+            <h:form id="CompetenciaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{competenciaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditCompetenciaLabel_idCompetencia}" for="idCompetencia" />
+                        <h:outputText id="idCompetencia" value="#{competenciaController.selected.idCompetencia}" />
+
+                        <p:outputLabel value="#{myBundle.EditCompetenciaLabel_nombreCompetencia}" for="nombreCompetencia" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreCompetencia" value="#{competenciaController.selected.nombreCompetencia}" title="#{myBundle.EditCompetenciaTitle_nombreCompetencia}" required="true" requiredMessage="#{myBundle.EditCompetenciaRequiredMessage_nombreCompetencia}"/>
+
+                        <p:outputLabel value="#{myBundle.EditCompetenciaLabel_descripcion}" for="descripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{competenciaController.selected.descripcion}" title="#{myBundle.EditCompetenciaTitle_descripcion}" />
+
+                        <p:outputLabel value="#{myBundle.EditCompetenciaLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{competenciaController.selected.estado}" title="#{myBundle.EditCompetenciaTitle_estado}" required="true" requiredMessage="#{myBundle.EditCompetenciaRequiredMessage_estado}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.EditCompetenciaLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{competenciaController.selected.fechaRegistro}" title="#{myBundle.EditCompetenciaTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditCompetenciaLabel_idPrograma}" for="idPrograma" />
+                        <p:selectOneMenu id="idPrograma" value="#{competenciaController.selected.idPrograma}" required="true" requiredMessage="#{myBundle.EditCompetenciaRequiredMessage_idPrograma}" converter="programaDeFormacionConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{programaDeFormacionController.items}"
+                                           var="idProgramaItem"
+                                           itemValue="#{idProgramaItem}"
+                                           itemLabel="#{idProgramaItem.descripcionPrograma.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{competenciaController.save}" value="#{myBundle.Save}" update="display,:CompetenciaListForm:datalist,:CompetenciaListForm:CompetenciaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CompetenciaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('CompetenciaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

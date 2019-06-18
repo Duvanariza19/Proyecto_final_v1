@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EvidenciaAprendizajeCreateDlg" widgetVar="EvidenciaAprendizajeCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateEvidenciaAprendizajeTitle}" closeOnEscape="true">
+
+            <h:form id="EvidenciaAprendizajeCreateForm">
+
+                <h:panelGroup id="display" rendered="#{evidenciaAprendizajeController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateEvidenciaAprendizajeLabel_nombreEvidencia}" for="nombreEvidencia" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreEvidencia" value="#{evidenciaAprendizajeController.selected.nombreEvidencia}" title="#{myBundle.CreateEvidenciaAprendizajeTitle_nombreEvidencia}" required="true" requiredMessage="#{myBundle.CreateEvidenciaAprendizajeRequiredMessage_nombreEvidencia}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEvidenciaAprendizajeLabel_descripcionEvidencia}" for="descripcionEvidencia" />
+                        <p:inputTextarea rows="4" cols="30" id="descripcionEvidencia" value="#{evidenciaAprendizajeController.selected.descripcionEvidencia}" title="#{myBundle.CreateEvidenciaAprendizajeTitle_descripcionEvidencia}" />
+
+                        <p:outputLabel value="#{myBundle.CreateEvidenciaAprendizajeLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{evidenciaAprendizajeController.selected.fechaInicio}" title="#{myBundle.CreateEvidenciaAprendizajeTitle_fechaInicio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEvidenciaAprendizajeLabel_fechaFin}" for="fechaFin" />
+                        <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{evidenciaAprendizajeController.selected.fechaFin}" title="#{myBundle.CreateEvidenciaAprendizajeTitle_fechaFin}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEvidenciaAprendizajeLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{evidenciaAprendizajeController.selected.fechaRegistro}" title="#{myBundle.CreateEvidenciaAprendizajeTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEvidenciaAprendizajeLabel_idResultadoAprendizaje}" for="idResultadoAprendizaje" />
+                        <p:selectOneMenu id="idResultadoAprendizaje" value="#{evidenciaAprendizajeController.selected.idResultadoAprendizaje}" required="true" requiredMessage="#{myBundle.CreateEvidenciaAprendizajeRequiredMessage_idResultadoAprendizaje}" converter="resultadoAprendizajeConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{resultadoAprendizajeController.items}"
+                                           var="idResultadoAprendizajeItem"
+                                           itemValue="#{idResultadoAprendizajeItem}"
+                                           itemLabel="#{idResultadoAprendizajeItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{evidenciaAprendizajeController.saveNew}" value="#{myBundle.Save}" update="display,:EvidenciaAprendizajeListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EvidenciaAprendizajeCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('EvidenciaAprendizajeCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

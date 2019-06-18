@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="InstructorEditDlg" widgetVar="InstructorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditInstructorTitle}" closeOnEscape="true">
+
+            <h:form id="InstructorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{instructorController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditInstructorLabel_idInstructor}" for="idInstructor" />
+                        <h:outputText id="idInstructor" value="#{instructorController.selected.idInstructor}" />
+
+                        <p:outputLabel value="#{myBundle.EditInstructorLabel_idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu id="idUsuario" value="#{instructorController.selected.idUsuario}" required="true" requiredMessage="#{myBundle.EditInstructorRequiredMessage_idUsuario}" converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="idUsuarioItem"
+                                           itemValue="#{idUsuarioItem}"
+                                           itemLabel="#{idUsuarioItem.idUsuario.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{instructorController.save}" value="#{myBundle.Save}" update="display,:InstructorListForm:datalist,:InstructorListForm:InstructorDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InstructorEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('InstructorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="JuicioEvalutivoListForm">
+
+        <p:panel header="#{myBundle.ListJuicioEvalutivoTitle}">
+            <p:contextMenu id="JuicioEvalutivoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('JuicioEvalutivoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('JuicioEvalutivoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('JuicioEvalutivoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('JuicioEvalutivoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.JuicioEvalutivoMenuItem_idEvidencia}" icon="ui-icon-search"  actionListener="#{juicioEvalutivoController.prepareIdEvidencia}" update=":EvidenciaAprendizajeViewForm" oncomplete="PF('EvidenciaAprendizajeViewDialog').show()" disabled="#{empty juicioEvalutivoController.selected.idEvidencia}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{juicioEvalutivoController.items}"
+                         lazy="false"
+                         rowKey="#{item.idJuicio}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{juicioEvalutivoController.selected}"
+                         filteredValue="#{juicioEvalutivoController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{juicioEvalutivoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idJuicio}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:JuicioEvalutivoDataTableContextMenu" listener="#{juicioEvalutivoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:JuicioEvalutivoDataTableContextMenu" listener="#{juicioEvalutivoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{juicioEvalutivoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('JuicioEvalutivoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idJuicio}" filterBy="#{item.idJuicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListJuicioEvalutivoTitle_idJuicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idJuicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idUsuarioAprendizaje}" filterBy="#{item.idUsuarioAprendizaje}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListJuicioEvalutivoTitle_idUsuarioAprendizaje}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuarioAprendizaje}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valorJuicio}" filterBy="#{item.valorJuicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListJuicioEvalutivoTitle_valorJuicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorJuicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaJuicioEvaluativo}" filterBy="#{item.fechaJuicioEvaluativo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListJuicioEvalutivoTitle_fechaJuicioEvaluativo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaJuicioEvaluativo}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idEvidencia.descripcionEvidencia}" filterBy="#{item.idEvidencia.descripcionEvidencia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListJuicioEvalutivoTitle_idEvidencia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEvidencia.descripcionEvidencia}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{juicioEvalutivoController.prepareCreate}" update=":JuicioEvalutivoCreateForm" oncomplete="PF('JuicioEvalutivoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":JuicioEvalutivoViewForm" oncomplete="PF('JuicioEvalutivoViewDialog').show()" disabled="#{empty juicioEvalutivoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":JuicioEvalutivoEditForm" oncomplete="PF('JuicioEvalutivoEditDialog').show()" disabled="#{empty juicioEvalutivoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{juicioEvalutivoController.delete}" update=":growl,datalist" disabled="#{empty juicioEvalutivoController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

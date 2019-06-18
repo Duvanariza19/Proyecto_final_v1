@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CompetenciaViewDlg" widgetVar="CompetenciaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewCompetenciaTitle}" closeOnEscape="true">
+
+            <h:form id="CompetenciaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{competenciaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewCompetenciaLabel_idCompetencia}"/>
+                        <h:outputText value="#{competenciaController.selected.idCompetencia}" title="#{myBundle.ViewCompetenciaTitle_idCompetencia}"/>
+
+                        <h:outputText value="#{myBundle.ViewCompetenciaLabel_nombreCompetencia}"/>
+                        <h:outputText value="#{competenciaController.selected.nombreCompetencia}" title="#{myBundle.ViewCompetenciaTitle_nombreCompetencia}"/>
+
+                        <h:outputText value="#{myBundle.ViewCompetenciaLabel_descripcion}"/>
+                        <h:outputText value="#{competenciaController.selected.descripcion}" title="#{myBundle.ViewCompetenciaTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewCompetenciaLabel_estado}"/>
+                        <h:outputText value="#{competenciaController.selected.estado}" title="#{myBundle.ViewCompetenciaTitle_estado}"/>
+
+                        <h:outputText value="#{myBundle.ViewCompetenciaLabel_fechaRegistro}"/>
+                        <h:outputText value="#{competenciaController.selected.fechaRegistro}" title="#{myBundle.ViewCompetenciaTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewCompetenciaLabel_idPrograma}"/>
+                        <h:outputText value="#{competenciaController.selected.idPrograma.descripcionPrograma}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('CompetenciaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

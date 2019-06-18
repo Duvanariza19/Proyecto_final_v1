@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PerfilListForm">
+
+        <p:panel header="#{myBundle.ListPerfilTitle}">
+            <p:contextMenu id="PerfilDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('PerfilListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('PerfilListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('PerfilListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('PerfilListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.PerfilMenuItem_idUsuario}" icon="ui-icon-search"  actionListener="#{perfilController.prepareIdUsuario}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty perfilController.selected.idUsuario}"/>  
+                <p:menuitem value="#{myBundle.PerfilMenuItem_idRol}" icon="ui-icon-search"  actionListener="#{perfilController.prepareIdRol}" update=":RolViewForm" oncomplete="PF('RolViewDialog').show()" disabled="#{empty perfilController.selected.idRol}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{perfilController.items}"
+                         lazy="false"
+                         rowKey="#{item.idPerfil}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{perfilController.selected}"
+                         filteredValue="#{perfilController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{perfilController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idPerfil}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PerfilDataTableContextMenu" listener="#{perfilController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PerfilDataTableContextMenu" listener="#{perfilController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{perfilController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PerfilListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idPerfil}" filterBy="#{item.idPerfil}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPerfilTitle_idPerfil}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPerfil}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPerfilTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPerfilTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaModificacio}" filterBy="#{item.fechaModificacio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPerfilTitle_fechaModificacio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaModificacio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idUsuarioModifica}" filterBy="#{item.idUsuarioModifica}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPerfilTitle_idUsuarioModifica}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuarioModifica}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreUsuarioModifica}" filterBy="#{item.nombreUsuarioModifica}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPerfilTitle_nombreUsuarioModifica}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreUsuarioModifica}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.idUsuario.idUsuario}" filterBy="#{item.idUsuario.idUsuario}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPerfilTitle_idUsuario}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUsuario.idUsuario}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idRol.descripcion}" filterBy="#{item.idRol.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListPerfilTitle_idRol}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idRol.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{perfilController.prepareCreate}" update=":PerfilCreateForm" oncomplete="PF('PerfilCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":PerfilViewForm" oncomplete="PF('PerfilViewDialog').show()" disabled="#{empty perfilController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":PerfilEditForm" oncomplete="PF('PerfilEditDialog').show()" disabled="#{empty perfilController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{perfilController.delete}" update=":growl,datalist" disabled="#{empty perfilController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

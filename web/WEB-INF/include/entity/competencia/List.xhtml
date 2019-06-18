@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CompetenciaListForm">
+
+        <p:panel header="#{myBundle.ListCompetenciaTitle}">
+            <p:contextMenu id="CompetenciaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('CompetenciaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('CompetenciaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('CompetenciaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('CompetenciaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.CompetenciaMenuItem_idPrograma}" icon="ui-icon-search"  actionListener="#{competenciaController.prepareIdPrograma}" update=":ProgramaDeFormacionViewForm" oncomplete="PF('ProgramaDeFormacionViewDialog').show()" disabled="#{empty competenciaController.selected.idPrograma}"/>  
+                <p:menuitem value="#{myBundle.CompetenciaMenuItem_resultadoAprendizajeCollection}" icon="ui-icon-search"  action="#{competenciaController.navigateResultadoAprendizajeCollection}" disabled="#{competenciaController.isResultadoAprendizajeCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{competenciaController.items}"
+                         lazy="false"
+                         rowKey="#{item.idCompetencia}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{competenciaController.selected}"
+                         filteredValue="#{competenciaController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{competenciaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idCompetencia}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompetenciaDataTableContextMenu" listener="#{competenciaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompetenciaDataTableContextMenu" listener="#{competenciaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{competenciaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CompetenciaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idCompetencia}" filterBy="#{item.idCompetencia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCompetenciaTitle_idCompetencia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCompetencia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreCompetencia}" filterBy="#{item.nombreCompetencia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCompetenciaTitle_nombreCompetencia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreCompetencia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCompetenciaTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCompetenciaTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCompetenciaTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPrograma.descripcionPrograma}" filterBy="#{item.idPrograma.descripcionPrograma}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCompetenciaTitle_idPrograma}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPrograma.descripcionPrograma}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{competenciaController.prepareCreate}" update=":CompetenciaCreateForm" oncomplete="PF('CompetenciaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":CompetenciaViewForm" oncomplete="PF('CompetenciaViewDialog').show()" disabled="#{empty competenciaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":CompetenciaEditForm" oncomplete="PF('CompetenciaEditDialog').show()" disabled="#{empty competenciaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{competenciaController.delete}" update=":growl,datalist" disabled="#{empty competenciaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

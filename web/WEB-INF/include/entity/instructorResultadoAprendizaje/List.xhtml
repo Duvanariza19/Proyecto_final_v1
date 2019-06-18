@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="InstructorResultadoAprendizajeListForm">
+
+        <p:panel header="#{myBundle.ListInstructorResultadoAprendizajeTitle}">
+            <p:contextMenu id="InstructorResultadoAprendizajeDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('InstructorResultadoAprendizajeListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('InstructorResultadoAprendizajeListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('InstructorResultadoAprendizajeListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('InstructorResultadoAprendizajeListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.InstructorResultadoAprendizajeMenuItem_idInstructor}" icon="ui-icon-search"  actionListener="#{instructorResultadoAprendizajeController.prepareIdInstructor}" update=":InstructorViewForm" oncomplete="PF('InstructorViewDialog').show()" disabled="#{empty instructorResultadoAprendizajeController.selected.idInstructor}"/>  
+                <p:menuitem value="#{myBundle.InstructorResultadoAprendizajeMenuItem_idResultadoAprendizaje}" icon="ui-icon-search"  actionListener="#{instructorResultadoAprendizajeController.prepareIdResultadoAprendizaje}" update=":ResultadoAprendizajeViewForm" oncomplete="PF('ResultadoAprendizajeViewDialog').show()" disabled="#{empty instructorResultadoAprendizajeController.selected.idResultadoAprendizaje}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{instructorResultadoAprendizajeController.items}"
+                         lazy="false"
+                         rowKey="#{item.idInstructorResultadoAprendizaje}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{instructorResultadoAprendizajeController.selected}"
+                         filteredValue="#{instructorResultadoAprendizajeController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{instructorResultadoAprendizajeController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idInstructorResultadoAprendizaje}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstructorResultadoAprendizajeDataTableContextMenu" listener="#{instructorResultadoAprendizajeController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstructorResultadoAprendizajeDataTableContextMenu" listener="#{instructorResultadoAprendizajeController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{instructorResultadoAprendizajeController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('InstructorResultadoAprendizajeListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idInstructorResultadoAprendizaje}" filterBy="#{item.idInstructorResultadoAprendizaje}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListInstructorResultadoAprendizajeTitle_idInstructorResultadoAprendizaje}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idInstructorResultadoAprendizaje}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListInstructorResultadoAprendizajeTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaModificacio}" filterBy="#{item.fechaModificacio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListInstructorResultadoAprendizajeTitle_fechaModificacio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaModificacio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idUsuarioModifica}" filterBy="#{item.idUsuarioModifica}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListInstructorResultadoAprendizajeTitle_idUsuarioModifica}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuarioModifica}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreUsuarioModifica}" filterBy="#{item.nombreUsuarioModifica}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListInstructorResultadoAprendizajeTitle_nombreUsuarioModifica}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreUsuarioModifica}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idInstructor.idInstructor}" filterBy="#{item.idInstructor.idInstructor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListInstructorResultadoAprendizajeTitle_idInstructor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idInstructor.idInstructor}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.idResultadoAprendizaje.descripcion}" filterBy="#{item.idResultadoAprendizaje.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListInstructorResultadoAprendizajeTitle_idResultadoAprendizaje}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idResultadoAprendizaje.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{instructorResultadoAprendizajeController.prepareCreate}" update=":InstructorResultadoAprendizajeCreateForm" oncomplete="PF('InstructorResultadoAprendizajeCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":InstructorResultadoAprendizajeViewForm" oncomplete="PF('InstructorResultadoAprendizajeViewDialog').show()" disabled="#{empty instructorResultadoAprendizajeController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":InstructorResultadoAprendizajeEditForm" oncomplete="PF('InstructorResultadoAprendizajeEditDialog').show()" disabled="#{empty instructorResultadoAprendizajeController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{instructorResultadoAprendizajeController.delete}" update=":growl,datalist" disabled="#{empty instructorResultadoAprendizajeController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

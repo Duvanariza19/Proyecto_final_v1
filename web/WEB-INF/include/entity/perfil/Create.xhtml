@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PerfilCreateDlg" widgetVar="PerfilCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreatePerfilTitle}" closeOnEscape="true">
+
+            <h:form id="PerfilCreateForm">
+
+                <h:panelGroup id="display" rendered="#{perfilController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreatePerfilLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{perfilController.selected.estado}" title="#{myBundle.CreatePerfilTitle_estado}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePerfilLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{perfilController.selected.fechaRegistro}" title="#{myBundle.CreatePerfilTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePerfilLabel_fechaModificacio}" for="fechaModificacio" />
+                        <p:calendar id="fechaModificacio" pattern="MM/dd/yyyy" value="#{perfilController.selected.fechaModificacio}" title="#{myBundle.CreatePerfilTitle_fechaModificacio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePerfilLabel_idUsuarioModifica}" for="idUsuarioModifica" />
+                        <p:inputText id="idUsuarioModifica" value="#{perfilController.selected.idUsuarioModifica}" title="#{myBundle.CreatePerfilTitle_idUsuarioModifica}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePerfilLabel_nombreUsuarioModifica}" for="nombreUsuarioModifica" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreUsuarioModifica" value="#{perfilController.selected.nombreUsuarioModifica}" title="#{myBundle.CreatePerfilTitle_nombreUsuarioModifica}" />
+
+                        <p:outputLabel value="#{myBundle.CreatePerfilLabel_idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu id="idUsuario" value="#{perfilController.selected.idUsuario}" required="true" requiredMessage="#{myBundle.CreatePerfilRequiredMessage_idUsuario}" converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="idUsuarioItem"
+                                           itemValue="#{idUsuarioItem}"
+                                           itemLabel="#{idUsuarioItem.idUsuario.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreatePerfilLabel_idRol}" for="idRol" />
+                        <p:selectOneMenu id="idRol" value="#{perfilController.selected.idRol}" required="true" requiredMessage="#{myBundle.CreatePerfilRequiredMessage_idRol}" converter="rolConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rolController.items}"
+                                           var="idRolItem"
+                                           itemValue="#{idRolItem}"
+                                           itemLabel="#{idRolItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{perfilController.saveNew}" value="#{myBundle.Save}" update="display,:PerfilListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PerfilCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('PerfilCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

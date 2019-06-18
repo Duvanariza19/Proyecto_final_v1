@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="InstructorListForm">
+
+        <p:panel header="#{myBundle.ListInstructorTitle}">
+            <p:contextMenu id="InstructorDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('InstructorListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('InstructorListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('InstructorListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('InstructorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.InstructorMenuItem_instructorResultadoAprendizajeCollection}" icon="ui-icon-search"  action="#{instructorController.navigateInstructorResultadoAprendizajeCollection}" disabled="#{instructorController.isInstructorResultadoAprendizajeCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.InstructorMenuItem_idUsuario}" icon="ui-icon-search"  actionListener="#{instructorController.prepareIdUsuario}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty instructorController.selected.idUsuario}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{instructorController.items}"
+                         lazy="false"
+                         rowKey="#{item.idInstructor}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{instructorController.selected}"
+                         filteredValue="#{instructorController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{instructorController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idInstructor}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstructorDataTableContextMenu" listener="#{instructorController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstructorDataTableContextMenu" listener="#{instructorController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{instructorController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('InstructorListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idInstructor}" filterBy="#{item.idInstructor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListInstructorTitle_idInstructor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idInstructor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idUsuario.idUsuario}" filterBy="#{item.idUsuario.idUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListInstructorTitle_idUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuario.idUsuario}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{instructorController.prepareCreate}" update=":InstructorCreateForm" oncomplete="PF('InstructorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":InstructorViewForm" oncomplete="PF('InstructorViewDialog').show()" disabled="#{empty instructorController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":InstructorEditForm" oncomplete="PF('InstructorEditDialog').show()" disabled="#{empty instructorController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{instructorController.delete}" update=":growl,datalist" disabled="#{empty instructorController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

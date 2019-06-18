@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProgramaDeFormacionViewDlg" widgetVar="ProgramaDeFormacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewProgramaDeFormacionTitle}" closeOnEscape="true">
+
+            <h:form id="ProgramaDeFormacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{programaDeFormacionController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewProgramaDeFormacionLabel_idPrograma}"/>
+                        <h:outputText value="#{programaDeFormacionController.selected.idPrograma}" title="#{myBundle.ViewProgramaDeFormacionTitle_idPrograma}"/>
+
+                        <h:outputText value="#{myBundle.ViewProgramaDeFormacionLabel_nombrePrograma}"/>
+                        <h:outputText value="#{programaDeFormacionController.selected.nombrePrograma}" title="#{myBundle.ViewProgramaDeFormacionTitle_nombrePrograma}"/>
+
+                        <h:outputText value="#{myBundle.ViewProgramaDeFormacionLabel_duracionMeses}"/>
+                        <h:outputText value="#{programaDeFormacionController.selected.duracionMeses}" title="#{myBundle.ViewProgramaDeFormacionTitle_duracionMeses}"/>
+
+                        <h:outputText value="#{myBundle.ViewProgramaDeFormacionLabel_descripcionPrograma}"/>
+                        <h:outputText value="#{programaDeFormacionController.selected.descripcionPrograma}" title="#{myBundle.ViewProgramaDeFormacionTitle_descripcionPrograma}"/>
+
+                        <h:outputText value="#{myBundle.ViewProgramaDeFormacionLabel_tipoPrograma}"/>
+                        <h:outputText value="#{programaDeFormacionController.selected.tipoPrograma}" title="#{myBundle.ViewProgramaDeFormacionTitle_tipoPrograma}"/>
+
+                        <h:outputText value="#{myBundle.ViewProgramaDeFormacionLabel_estado}"/>
+                        <h:outputText value="#{programaDeFormacionController.selected.estado}" title="#{myBundle.ViewProgramaDeFormacionTitle_estado}"/>
+
+                        <h:outputText value="#{myBundle.ViewProgramaDeFormacionLabel_idUsuarioModifica}"/>
+                        <h:outputText value="#{programaDeFormacionController.selected.idUsuarioModifica}" title="#{myBundle.ViewProgramaDeFormacionTitle_idUsuarioModifica}"/>
+
+                        <h:outputText value="#{myBundle.ViewProgramaDeFormacionLabel_nombreUsuarioModifica}"/>
+                        <h:outputText value="#{programaDeFormacionController.selected.nombreUsuarioModifica}" title="#{myBundle.ViewProgramaDeFormacionTitle_nombreUsuarioModifica}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ProgramaDeFormacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

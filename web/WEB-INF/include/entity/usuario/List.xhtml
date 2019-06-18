@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UsuarioListForm">
+
+        <p:panel header="#{myBundle.ListUsuarioTitle}">
+            <p:contextMenu id="UsuarioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('UsuarioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('UsuarioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('UsuarioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('UsuarioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.UsuarioMenuItem_perfilCollection}" icon="ui-icon-search"  action="#{usuarioController.navigatePerfilCollection}" disabled="#{usuarioController.isPerfilCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.UsuarioMenuItem_instructorCollection}" icon="ui-icon-search"  action="#{usuarioController.navigateInstructorCollection}" disabled="#{usuarioController.isInstructorCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.UsuarioMenuItem_numeroDocumento}" icon="ui-icon-search"  actionListener="#{usuarioController.prepareNumeroDocumento}" update=":PersonaViewForm" oncomplete="PF('PersonaViewDialog').show()" disabled="#{empty usuarioController.selected.numeroDocumento}"/>  
+                <p:menuitem value="#{myBundle.UsuarioMenuItem_aprendizCollection}" icon="ui-icon-search"  action="#{usuarioController.navigateAprendizCollection}" disabled="#{usuarioController.isAprendizCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist" scrollable="true" scrollWidth="98%"
+                         value="#{usuarioController.items}"
+                         lazy="false"
+                         rowKey="#{item.idUsuario}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{usuarioController.selected}"
+                         filteredValue="#{usuarioController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{usuarioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idUsuario}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UsuarioDataTableContextMenu" listener="#{usuarioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UsuarioDataTableContextMenu" listener="#{usuarioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{usuarioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('UsuarioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idUsuario}" filterBy="#{item.idUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_idUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuario}"/>
+                
+                </p:column>
+                
+                    <p:column sortBy="#{item.numeroDocumento.numeroDocumento}" filterBy="#{item.numeroDocumento.numeroDocumento}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListUsuarioTitle_numeroDocumento}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroDocumento.numeroDocumento}"/>
+                    </p:column>
+               
+
+                <p:column sortBy="#{item.estadoUsuario}" filterBy="#{item.estadoUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_estadoUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estadoUsuario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contrasena}" filterBy="#{item.contrasena}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_contrasena}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contrasena}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaContrasena}" filterBy="#{item.fechaContrasena}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_fechaContrasena}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaContrasena}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contrasenaAnterior}" filterBy="#{item.contrasenaAnterior}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_contrasenaAnterior}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contrasenaAnterior}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.intentosLogin}" filterBy="#{item.intentosLogin}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_intentosLogin}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.intentosLogin}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListUsuarioTitle_fechaRegistro}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.correoSena}" filterBy="#{item.correoSena}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListUsuarioTitle_correoSena}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.correoSena}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.fechaModificacio}" filterBy="#{item.fechaModificacio}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListUsuarioTitle_fechaModificacio}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaModificacio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idUsuarioModifica}" filterBy="#{item.idUsuarioModifica}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListUsuarioTitle_idUsuarioModifica}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUsuarioModifica}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.nombreUsuarioModifica}" filterBy="#{item.nombreUsuarioModifica}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListUsuarioTitle_nombreUsuarioModifica}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreUsuarioModifica}"/>
+                    </p:column>
+                </ui:remove>
+                
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{usuarioController.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty usuarioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{usuarioController.delete}" update=":growl,datalist" disabled="#{empty usuarioController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

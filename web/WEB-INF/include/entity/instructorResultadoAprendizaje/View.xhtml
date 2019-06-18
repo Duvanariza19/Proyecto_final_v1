@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InstructorResultadoAprendizajeViewDlg" widgetVar="InstructorResultadoAprendizajeViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewInstructorResultadoAprendizajeTitle}" closeOnEscape="true">
+
+            <h:form id="InstructorResultadoAprendizajeViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{instructorResultadoAprendizajeController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewInstructorResultadoAprendizajeLabel_idInstructorResultadoAprendizaje}"/>
+                        <h:outputText value="#{instructorResultadoAprendizajeController.selected.idInstructorResultadoAprendizaje}" title="#{myBundle.ViewInstructorResultadoAprendizajeTitle_idInstructorResultadoAprendizaje}"/>
+
+                        <h:outputText value="#{myBundle.ViewInstructorResultadoAprendizajeLabel_fechaRegistro}"/>
+                        <h:outputText value="#{instructorResultadoAprendizajeController.selected.fechaRegistro}" title="#{myBundle.ViewInstructorResultadoAprendizajeTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewInstructorResultadoAprendizajeLabel_fechaModificacio}"/>
+                        <h:outputText value="#{instructorResultadoAprendizajeController.selected.fechaModificacio}" title="#{myBundle.ViewInstructorResultadoAprendizajeTitle_fechaModificacio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewInstructorResultadoAprendizajeLabel_idUsuarioModifica}"/>
+                        <h:outputText value="#{instructorResultadoAprendizajeController.selected.idUsuarioModifica}" title="#{myBundle.ViewInstructorResultadoAprendizajeTitle_idUsuarioModifica}"/>
+
+                        <h:outputText value="#{myBundle.ViewInstructorResultadoAprendizajeLabel_nombreUsuarioModifica}"/>
+                        <h:outputText value="#{instructorResultadoAprendizajeController.selected.nombreUsuarioModifica}" title="#{myBundle.ViewInstructorResultadoAprendizajeTitle_nombreUsuarioModifica}"/>
+
+                        <h:outputText value="#{myBundle.ViewInstructorResultadoAprendizajeLabel_idInstructor}"/>
+                        <h:outputText value="#{instructorResultadoAprendizajeController.selected.idInstructor.idInstructor}"/>
+
+                        <h:outputText value="#{myBundle.ViewInstructorResultadoAprendizajeLabel_idResultadoAprendizaje}"/>
+                        <h:outputText value="#{instructorResultadoAprendizajeController.selected.idResultadoAprendizaje.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('InstructorResultadoAprendizajeViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

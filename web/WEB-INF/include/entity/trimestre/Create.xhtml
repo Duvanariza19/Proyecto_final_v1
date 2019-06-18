@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TrimestreCreateDlg" widgetVar="TrimestreCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateTrimestreTitle}" closeOnEscape="true">
+
+            <h:form id="TrimestreCreateForm">
+
+                <h:panelGroup id="display" rendered="#{trimestreController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateTrimestreLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{trimestreController.selected.fechaInicio}" title="#{myBundle.CreateTrimestreTitle_fechaInicio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTrimestreLabel_fechaFin}" for="fechaFin" />
+                        <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{trimestreController.selected.fechaFin}" title="#{myBundle.CreateTrimestreTitle_fechaFin}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTrimestreLabel_numeroTrimestre}" for="numeroTrimestre" />
+                        <p:inputText id="numeroTrimestre" value="#{trimestreController.selected.numeroTrimestre}" title="#{myBundle.CreateTrimestreTitle_numeroTrimestre}" required="true" requiredMessage="#{myBundle.CreateTrimestreRequiredMessage_numeroTrimestre}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTrimestreLabel_idFicha}" for="idFicha" />
+                        <p:selectOneMenu id="idFicha" value="#{trimestreController.selected.idFicha}" required="true" requiredMessage="#{myBundle.CreateTrimestreRequiredMessage_idFicha}" converter="fichaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{fichaController.items}"
+                                           var="idFichaItem"
+                                           itemValue="#{idFichaItem}"
+                                           itemLabel="#{idFichaItem.idFicha.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{trimestreController.saveNew}" value="#{myBundle.Save}" update="display,:TrimestreListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TrimestreCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('TrimestreCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="JuicioEvalutivoCreateDlg" widgetVar="JuicioEvalutivoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateJuicioEvalutivoTitle}" closeOnEscape="true">
+
+            <h:form id="JuicioEvalutivoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{juicioEvalutivoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateJuicioEvalutivoLabel_idUsuarioAprendizaje}" for="idUsuarioAprendizaje" />
+                        <p:inputText id="idUsuarioAprendizaje" value="#{juicioEvalutivoController.selected.idUsuarioAprendizaje}" title="#{myBundle.CreateJuicioEvalutivoTitle_idUsuarioAprendizaje}" required="true" requiredMessage="#{myBundle.CreateJuicioEvalutivoRequiredMessage_idUsuarioAprendizaje}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateJuicioEvalutivoLabel_valorJuicio}" for="valorJuicio" />
+                        <p:inputText id="valorJuicio" value="#{juicioEvalutivoController.selected.valorJuicio}" title="#{myBundle.CreateJuicioEvalutivoTitle_valorJuicio}" required="true" requiredMessage="#{myBundle.CreateJuicioEvalutivoRequiredMessage_valorJuicio}" size="2" maxlength="2"/>
+
+                        <p:outputLabel value="#{myBundle.CreateJuicioEvalutivoLabel_fechaJuicioEvaluativo}" for="fechaJuicioEvaluativo" />
+                        <p:calendar id="fechaJuicioEvaluativo" pattern="MM/dd/yyyy" value="#{juicioEvalutivoController.selected.fechaJuicioEvaluativo}" title="#{myBundle.CreateJuicioEvalutivoTitle_fechaJuicioEvaluativo}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateJuicioEvalutivoLabel_idEvidencia}" for="idEvidencia" />
+                        <p:selectOneMenu id="idEvidencia" value="#{juicioEvalutivoController.selected.idEvidencia}" required="true" requiredMessage="#{myBundle.CreateJuicioEvalutivoRequiredMessage_idEvidencia}" converter="evidenciaAprendizajeConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{evidenciaAprendizajeController.items}"
+                                           var="idEvidenciaItem"
+                                           itemValue="#{idEvidenciaItem}"
+                                           itemLabel="#{idEvidenciaItem.descripcionEvidencia.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{juicioEvalutivoController.saveNew}" value="#{myBundle.Save}" update="display,:JuicioEvalutivoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('JuicioEvalutivoCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('JuicioEvalutivoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ResultadoAprendizajeCreateDlg" widgetVar="ResultadoAprendizajeCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateResultadoAprendizajeTitle}" closeOnEscape="true">
+
+            <h:form id="ResultadoAprendizajeCreateForm">
+
+                <h:panelGroup id="display" rendered="#{resultadoAprendizajeController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateResultadoAprendizajeLabel_nombreresultado}" for="nombreresultado" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreresultado" value="#{resultadoAprendizajeController.selected.nombreresultado}" title="#{myBundle.CreateResultadoAprendizajeTitle_nombreresultado}" required="true" requiredMessage="#{myBundle.CreateResultadoAprendizajeRequiredMessage_nombreresultado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateResultadoAprendizajeLabel_descripcion}" for="descripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{resultadoAprendizajeController.selected.descripcion}" title="#{myBundle.CreateResultadoAprendizajeTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateResultadoAprendizajeRequiredMessage_descripcion}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateResultadoAprendizajeLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{resultadoAprendizajeController.selected.fechaRegistro}" title="#{myBundle.CreateResultadoAprendizajeTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateResultadoAprendizajeLabel_idCompetencia}" for="idCompetencia" />
+                        <p:selectOneMenu id="idCompetencia" value="#{resultadoAprendizajeController.selected.idCompetencia}" required="true" requiredMessage="#{myBundle.CreateResultadoAprendizajeRequiredMessage_idCompetencia}" converter="competenciaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{competenciaController.items}"
+                                           var="idCompetenciaItem"
+                                           itemValue="#{idCompetenciaItem}"
+                                           itemLabel="#{idCompetenciaItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{resultadoAprendizajeController.saveNew}" value="#{myBundle.Save}" update="display,:ResultadoAprendizajeListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ResultadoAprendizajeCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ResultadoAprendizajeCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

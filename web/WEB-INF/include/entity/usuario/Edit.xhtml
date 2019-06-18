@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuarioController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditUsuarioLabel_idUsuario}" for="idUsuario" />
+                        <h:outputText id="idUsuario" value="#{usuarioController.selected.idUsuario}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_estadoUsuario}" for="estadoUsuario" />
+                        <p:inputText id="estadoUsuario" value="#{usuarioController.selected.estadoUsuario}" title="#{myBundle.EditUsuarioTitle_estadoUsuario}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_estadoUsuario}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_contrasena}" for="contrasena" />
+                        <p:inputTextarea rows="4" cols="30" id="contrasena" value="#{usuarioController.selected.contrasena}" title="#{myBundle.EditUsuarioTitle_contrasena}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_contrasena}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_fechaContrasena}" for="fechaContrasena" />
+                        <p:calendar id="fechaContrasena" pattern="MM/dd/yyyy" value="#{usuarioController.selected.fechaContrasena}" title="#{myBundle.EditUsuarioTitle_fechaContrasena}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_contrasenaAnterior}" for="contrasenaAnterior" />
+                        <p:inputTextarea rows="4" cols="30" id="contrasenaAnterior" value="#{usuarioController.selected.contrasenaAnterior}" title="#{myBundle.EditUsuarioTitle_contrasenaAnterior}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_intentosLogin}" for="intentosLogin" />
+                        <p:inputText id="intentosLogin" value="#{usuarioController.selected.intentosLogin}" title="#{myBundle.EditUsuarioTitle_intentosLogin}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{usuarioController.selected.fechaRegistro}" title="#{myBundle.EditUsuarioTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_correoSena}" for="correoSena" />
+                        <p:inputText id="correoSena" value="#{usuarioController.selected.correoSena}" title="#{myBundle.EditUsuarioTitle_correoSena}" size="150" maxlength="150"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_fechaModificacio}" for="fechaModificacio" />
+                        <p:calendar id="fechaModificacio" pattern="MM/dd/yyyy" value="#{usuarioController.selected.fechaModificacio}" title="#{myBundle.EditUsuarioTitle_fechaModificacio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_idUsuarioModifica}" for="idUsuarioModifica" />
+                        <p:inputText id="idUsuarioModifica" value="#{usuarioController.selected.idUsuarioModifica}" title="#{myBundle.EditUsuarioTitle_idUsuarioModifica}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_nombreUsuarioModifica}" for="nombreUsuarioModifica" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreUsuarioModifica" value="#{usuarioController.selected.nombreUsuarioModifica}" title="#{myBundle.EditUsuarioTitle_nombreUsuarioModifica}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_numeroDocumento}" for="numeroDocumento" />
+                        <p:selectOneMenu id="numeroDocumento" value="#{usuarioController.selected.numeroDocumento}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_numeroDocumento}" converter="personaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personaController.items}"
+                                           var="numeroDocumentoItem"
+                                           itemValue="#{numeroDocumentoItem}"
+                                           itemLabel="#{numeroDocumentoItem.numeroDocumento.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.save}" value="#{myBundle.Save}" update="display,:UsuarioListForm:datalist,:UsuarioListForm:UsuarioDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('UsuarioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AprendizFichaEditDlg" widgetVar="AprendizFichaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditAprendizFichaTitle}" closeOnEscape="true">
+
+            <h:form id="AprendizFichaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{aprendizFichaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditAprendizFichaLabel_idAprendizFicha}" for="idAprendizFicha" />
+                        <h:outputText id="idAprendizFicha" value="#{aprendizFichaController.selected.idAprendizFicha}" />
+
+                        <p:outputLabel value="#{myBundle.EditAprendizFichaLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{aprendizFichaController.selected.fechaRegistro}" title="#{myBundle.EditAprendizFichaTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditAprendizFichaLabel_fechaModificacio}" for="fechaModificacio" />
+                        <p:calendar id="fechaModificacio" pattern="MM/dd/yyyy" value="#{aprendizFichaController.selected.fechaModificacio}" title="#{myBundle.EditAprendizFichaTitle_fechaModificacio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditAprendizFichaLabel_idUsuarioModifica}" for="idUsuarioModifica" />
+                        <p:inputText id="idUsuarioModifica" value="#{aprendizFichaController.selected.idUsuarioModifica}" title="#{myBundle.EditAprendizFichaTitle_idUsuarioModifica}"/>
+
+                        <p:outputLabel value="#{myBundle.EditAprendizFichaLabel_nombreUsuarioModifica}" for="nombreUsuarioModifica" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreUsuarioModifica" value="#{aprendizFichaController.selected.nombreUsuarioModifica}" title="#{myBundle.EditAprendizFichaTitle_nombreUsuarioModifica}" />
+
+                        <p:outputLabel value="#{myBundle.EditAprendizFichaLabel_idAprendiz}" for="idAprendiz" />
+                        <p:selectOneMenu id="idAprendiz" value="#{aprendizFichaController.selected.idAprendiz}" required="true" requiredMessage="#{myBundle.EditAprendizFichaRequiredMessage_idAprendiz}" converter="aprendizConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{aprendizController.items}"
+                                           var="idAprendizItem"
+                                           itemValue="#{idAprendizItem}"
+                                           itemLabel="#{idAprendizItem.idAprendiz.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditAprendizFichaLabel_idFicha}" for="idFicha" />
+                        <p:selectOneMenu id="idFicha" value="#{aprendizFichaController.selected.idFicha}" required="true" requiredMessage="#{myBundle.EditAprendizFichaRequiredMessage_idFicha}" converter="fichaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{fichaController.items}"
+                                           var="idFichaItem"
+                                           itemValue="#{idFichaItem}"
+                                           itemLabel="#{idFichaItem.idFicha.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{aprendizFichaController.save}" value="#{myBundle.Save}" update="display,:AprendizFichaListForm:datalist,:AprendizFichaListForm:AprendizFichaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AprendizFichaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('AprendizFichaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

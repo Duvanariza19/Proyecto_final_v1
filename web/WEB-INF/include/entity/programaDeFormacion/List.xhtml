@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProgramaDeFormacionListForm">
+
+        <p:panel header="#{myBundle.ListProgramaDeFormacionTitle}">
+            <p:contextMenu id="ProgramaDeFormacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('ProgramaDeFormacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('ProgramaDeFormacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('ProgramaDeFormacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ProgramaDeFormacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ProgramaDeFormacionMenuItem_competenciaCollection}" icon="ui-icon-search"  action="#{programaDeFormacionController.navigateCompetenciaCollection}" disabled="#{programaDeFormacionController.isCompetenciaCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.ProgramaDeFormacionMenuItem_fichaCollection}" icon="ui-icon-search"  action="#{programaDeFormacionController.navigateFichaCollection}" disabled="#{programaDeFormacionController.isFichaCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{programaDeFormacionController.items}"
+                         lazy="false"
+                         rowKey="#{item.idPrograma}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{programaDeFormacionController.selected}"
+                         filteredValue="#{programaDeFormacionController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{programaDeFormacionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idPrograma}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProgramaDeFormacionDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProgramaDeFormacionDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProgramaDeFormacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idPrograma}" filterBy="#{item.idPrograma}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramaDeFormacionTitle_idPrograma}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPrograma}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombrePrograma}" filterBy="#{item.nombrePrograma}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramaDeFormacionTitle_nombrePrograma}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombrePrograma}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.duracionMeses}" filterBy="#{item.duracionMeses}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramaDeFormacionTitle_duracionMeses}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.duracionMeses}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcionPrograma}" filterBy="#{item.descripcionPrograma}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramaDeFormacionTitle_descripcionPrograma}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcionPrograma}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoPrograma}" filterBy="#{item.tipoPrograma}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramaDeFormacionTitle_tipoPrograma}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoPrograma}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramaDeFormacionTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.idUsuarioModifica}" filterBy="#{item.idUsuarioModifica}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListProgramaDeFormacionTitle_idUsuarioModifica}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUsuarioModifica}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.nombreUsuarioModifica}" filterBy="#{item.nombreUsuarioModifica}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListProgramaDeFormacionTitle_nombreUsuarioModifica}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreUsuarioModifica}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{programaDeFormacionController.prepareCreate}" update=":ProgramaDeFormacionCreateForm" oncomplete="PF('ProgramaDeFormacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ProgramaDeFormacionViewForm" oncomplete="PF('ProgramaDeFormacionViewDialog').show()" disabled="#{empty programaDeFormacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ProgramaDeFormacionEditForm" oncomplete="PF('ProgramaDeFormacionEditDialog').show()" disabled="#{empty programaDeFormacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{programaDeFormacionController.delete}" update=":growl,datalist" disabled="#{empty programaDeFormacionController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

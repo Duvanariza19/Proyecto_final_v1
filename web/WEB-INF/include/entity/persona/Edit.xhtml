@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PersonaEditDlg" widgetVar="PersonaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditPersonaTitle}" closeOnEscape="true">
+
+            <h:form id="PersonaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{personaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditPersonaLabel_numeroDocumento}" for="numeroDocumento" />
+                        <h:outputText id="numeroDocumento" value="#{personaController.selected.numeroDocumento}" />
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_tipoDocumento}" for="tipoDocumento" />
+                        <p:inputText id="tipoDocumento" value="#{personaController.selected.tipoDocumento}" title="#{myBundle.EditPersonaTitle_tipoDocumento}" required="true" requiredMessage="#{myBundle.EditPersonaRequiredMessage_tipoDocumento}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_primerNombre}" for="primerNombre" />
+                        <p:inputText id="primerNombre" value="#{personaController.selected.primerNombre}" title="#{myBundle.EditPersonaTitle_primerNombre}" required="true" requiredMessage="#{myBundle.EditPersonaRequiredMessage_primerNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_segundoNombre}" for="segundoNombre" />
+                        <p:inputText id="segundoNombre" value="#{personaController.selected.segundoNombre}" title="#{myBundle.EditPersonaTitle_segundoNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_primerApellido}" for="primerApellido" />
+                        <p:inputText id="primerApellido" value="#{personaController.selected.primerApellido}" title="#{myBundle.EditPersonaTitle_primerApellido}" required="true" requiredMessage="#{myBundle.EditPersonaRequiredMessage_primerApellido}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_segundoApellido}" for="segundoApellido" />
+                        <p:inputText id="segundoApellido" value="#{personaController.selected.segundoApellido}" title="#{myBundle.EditPersonaTitle_segundoApellido}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_genero}" for="genero" />
+                        <p:inputText id="genero" value="#{personaController.selected.genero}" title="#{myBundle.EditPersonaTitle_genero}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_correo}" for="correo" />
+                        <p:inputText id="correo" value="#{personaController.selected.correo}" title="#{myBundle.EditPersonaTitle_correo}" size="150" maxlength="150"/>
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_fechaModificacio}" for="fechaModificacio" />
+                        <p:calendar id="fechaModificacio" pattern="MM/dd/yyyy" value="#{personaController.selected.fechaModificacio}" title="#{myBundle.EditPersonaTitle_fechaModificacio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_idUsuarioModifica}" for="idUsuarioModifica" />
+                        <p:inputText id="idUsuarioModifica" value="#{personaController.selected.idUsuarioModifica}" title="#{myBundle.EditPersonaTitle_idUsuarioModifica}"/>
+
+                        <p:outputLabel value="#{myBundle.EditPersonaLabel_nombreUsuarioModifica}" for="nombreUsuarioModifica" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreUsuarioModifica" value="#{personaController.selected.nombreUsuarioModifica}" title="#{myBundle.EditPersonaTitle_nombreUsuarioModifica}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{personaController.save}" value="#{myBundle.Save}" update="display,:PersonaListForm:datalist,:PersonaListForm:PersonaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PersonaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('PersonaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

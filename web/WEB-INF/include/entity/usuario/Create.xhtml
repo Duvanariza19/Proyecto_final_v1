@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{usuarioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_estadoUsuario}" for="estadoUsuario" />
+                        <p:inputText id="estadoUsuario" value="#{usuarioController.selected.estadoUsuario}" title="#{myBundle.CreateUsuarioTitle_estadoUsuario}" required="true" requiredMessage="#{myBundle.CreateUsuarioRequiredMessage_estadoUsuario}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_contrasena}" for="contrasena" />
+                        <p:inputText id="contrasena" value="#{usuarioController.selected.contrasena}" title="#{myBundle.CreateUsuarioTitle_contrasena}" required="true" requiredMessage="#{myBundle.CreateUsuarioRequiredMessage_contrasena}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_fechaContrasena}" for="fechaContrasena" />
+                        <p:calendar id="fechaContrasena" pattern="MM/dd/yyyy" value="#{usuarioController.selected.fechaContrasena}" title="#{myBundle.CreateUsuarioTitle_fechaContrasena}"  showOn="button"/>
+
+                        
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_intentosLogin}" for="intentosLogin" />
+                        <p:inputText id="intentosLogin" value="#{usuarioController.selected.intentosLogin}" title="#{myBundle.CreateUsuarioTitle_intentosLogin}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{usuarioController.selected.fechaRegistro}" title="#{myBundle.CreateUsuarioTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_correoSena}" for="correoSena" />
+                        <p:inputText id="correoSena" value="#{usuarioController.selected.correoSena}" title="#{myBundle.CreateUsuarioTitle_correoSena}" size="80" maxlength="150"/>
+                        
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_numeroDocumento}" for="numeroDocumento" />
+                        <p:selectOneMenu id="numeroDocumento" value="#{usuarioController.selected.numeroDocumento}" required="true" requiredMessage="#{myBundle.CreateUsuarioRequiredMessage_numeroDocumento}" converter="personaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personaController.items}"
+                                           var="numeroDocumentoItem"
+                                           itemValue="#{numeroDocumentoItem}"
+                                           itemLabel="#{numeroDocumentoItem.numeroDocumento.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                        
+
+                        
+
+                        
+                        <!--<p:outputLabel value="#{myBundle.CreateUsuarioLabel_contrasenaAnterior}" for="contrasenaAnterior" />
+                        <p:inputText  id="contrasenaAnterior" value="#{usuarioController.selected.contrasenaAnterior}" title="#{myBundle.CreateUsuarioTitle_contrasenaAnterior}" />/-->
+                         <!--<p:outputLabel value="#{myBundle.CreateUsuarioLabel_nombreUsuarioModifica}" for="nombreUsuarioModifica" />
+                        <p:inputTextarea rows="4" cols="30" id="nombreUsuarioModifica" value="#{usuarioController.selected.nombreUsuarioModifica}" title="#{myBundle.CreateUsuarioTitle_nombreUsuarioModifica}" />*/-->                  
+                        <!--<p:outputLabel value="#{myBundle.CreateUsuarioLabel_fechaModificacio}" for="fechaModificacio" />
+                        <p:calendar id="fechaModificacio" pattern="MM/dd/yyyy" value="#{usuarioController.selected.fechaModificacio}" title="#{myBundle.CreateUsuarioTitle_fechaModificacio}"  showOn="button"/>/-->
+
+                        <!--<p:outputLabel value="#{myBundle.CreateUsuarioLabel_idUsuarioModifica}" for="idUsuarioModifica" />
+                        <p:inputText id="idUsuarioModifica" value="#{usuarioController.selected.idUsuarioModifica}" title="#{myBundle.CreateUsuarioTitle_idUsuarioModifica}"/>/-->
+                    
+                    
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.saveNew}" value="#{myBundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('UsuarioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

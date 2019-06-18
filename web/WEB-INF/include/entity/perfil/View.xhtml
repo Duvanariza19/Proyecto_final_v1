@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PerfilViewDlg" widgetVar="PerfilViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewPerfilTitle}" closeOnEscape="true">
+
+            <h:form id="PerfilViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{perfilController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewPerfilLabel_idPerfil}"/>
+                        <h:outputText value="#{perfilController.selected.idPerfil}" title="#{myBundle.ViewPerfilTitle_idPerfil}"/>
+
+                        <h:outputText value="#{myBundle.ViewPerfilLabel_estado}"/>
+                        <h:outputText value="#{perfilController.selected.estado}" title="#{myBundle.ViewPerfilTitle_estado}"/>
+
+                        <h:outputText value="#{myBundle.ViewPerfilLabel_fechaRegistro}"/>
+                        <h:outputText value="#{perfilController.selected.fechaRegistro}" title="#{myBundle.ViewPerfilTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewPerfilLabel_fechaModificacio}"/>
+                        <h:outputText value="#{perfilController.selected.fechaModificacio}" title="#{myBundle.ViewPerfilTitle_fechaModificacio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewPerfilLabel_idUsuarioModifica}"/>
+                        <h:outputText value="#{perfilController.selected.idUsuarioModifica}" title="#{myBundle.ViewPerfilTitle_idUsuarioModifica}"/>
+
+                        <h:outputText value="#{myBundle.ViewPerfilLabel_nombreUsuarioModifica}"/>
+                        <h:outputText value="#{perfilController.selected.nombreUsuarioModifica}" title="#{myBundle.ViewPerfilTitle_nombreUsuarioModifica}"/>
+
+                        <h:outputText value="#{myBundle.ViewPerfilLabel_idUsuario}"/>
+                        <h:outputText value="#{perfilController.selected.idUsuario.idUsuario}"/>
+
+                        <h:outputText value="#{myBundle.ViewPerfilLabel_idRol}"/>
+                        <h:outputText value="#{perfilController.selected.idRol.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('PerfilViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

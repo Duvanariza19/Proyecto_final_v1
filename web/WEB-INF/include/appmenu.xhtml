@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:menuitem value="#{myBundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                <p:submenu label="#{myBundle.Maintenance}">
+                    <p:menuitem value="#{myBundle.AprendizHeading}..." outcome="/app/aprendiz/index" />
+                    <p:menuitem value="#{myBundle.AprendizFichaHeading}..." outcome="/app/aprendizFicha/index" />
+                    <p:menuitem value="#{myBundle.CompetenciaHeading}..." outcome="/app/competencia/index" />
+                    <p:menuitem value="#{myBundle.EvidenciaAprendizajeHeading}..." outcome="/app/evidenciaAprendizaje/index" />
+                    <p:menuitem value="#{myBundle.FichaHeading}..." outcome="/app/ficha/index" />
+                    <p:menuitem value="#{myBundle.InstructorHeading}..." outcome="/app/instructor/index" />
+                    <p:menuitem value="#{myBundle.InstructorResultadoAprendizajeHeading}..." outcome="/app/instructorResultadoAprendizaje/index" />
+                    <p:menuitem value="#{myBundle.JuicioEvalutivoHeading}..." outcome="/app/juicioEvalutivo/index" />
+                    <p:menuitem value="#{myBundle.PerfilHeading}..." outcome="/app/perfil/index" />
+                    <p:menuitem value="#{myBundle.PermisoHeading}..." outcome="/app/permiso/index" />
+                    <p:menuitem value="#{myBundle.PersonaHeading}..." outcome="/app/persona/index" />
+                    <p:menuitem value="#{myBundle.ProgramaDeFormacionHeading}..." outcome="/app/programaDeFormacion/index" />
+                    <p:menuitem value="#{myBundle.ResultadoAprendizajeHeading}..." outcome="/app/resultadoAprendizaje/index" />
+                    <p:menuitem value="#{myBundle.RolHeading}..." outcome="/app/rol/index" />
+                    <p:menuitem value="#{myBundle.TrimestreHeading}..." outcome="/app/trimestre/index" />
+                    <p:menuitem value="#{myBundle.UsuarioHeading}..." outcome="/app/usuario/index" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+
+</html>
